@@ -5,11 +5,10 @@ import json
 
 app = FastAPI()
 
-@app.get('/recently/{page}')
+@app.get('/api/recently/{page}')
 def recently(page: int):
-    return {
-        "message": "Hello my friend"
-    }
+    recently = GogoanimeParser.get_recently_uploaded(page=page)
+    return json.loads(recently)
 
 @app.get("/")
 def main():
