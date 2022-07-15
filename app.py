@@ -1,6 +1,5 @@
-from fastapi import FastAPI
-import datetime
 from gogoanime import *
+from fastapi import FastAPI
 import json
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -17,10 +16,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get('/api/genre/{genre}/{page}')
+@app.get('/api/{genre}/{page}')
 def genre(genre: str, page: int):
     genre = GogoanimeParser.genre(genre_name=genre, page=page)
-    return genre
+    return json.loads(genre)
 
 @app.get('/api/recently/{page}')
 def recently(page: int):
