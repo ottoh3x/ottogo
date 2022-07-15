@@ -19,7 +19,7 @@ app.add_middleware(
 @app.get('/api/genre/{genre}/{page}')
 def genre(genre: str, page: int):
     genre = GogoanimeParser.genre(genre_name=genre, page=page)
-    return json.loads(genre)
+    return genre
 
 @app.get('/api/recently/{page}')
 def recently(page: int):
