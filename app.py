@@ -17,6 +17,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get('/api/genre/{genre}/{page}')
+def genre(genre: str, page: int):
+    genre = GogoanimeParser.genre(genre_name=genre, page=page)
+    return genre
+
 @app.get('/api/recently/{page}')
 def recently(page: int):
     recently = GogoanimeParser.get_recently_uploaded(page=page)
@@ -28,11 +33,6 @@ def popular(page: int):
     popular = GogoanimeParser.popular(page=page)
     return json.loads(popular)
 
-
-@app.get('/api/genre/{genre}/{page}')
-def genre(genre: str, page: int):
-    genre = GogoanimeParser.genre(genre_name=genre, page=page)
-    return genre
 
 
 @app.get('/api/details/{animeid}')
@@ -52,3 +52,6 @@ def main():
     return {
         "message": "Hello my friend"
     }
+    
+if __name__ == "__main__":
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
