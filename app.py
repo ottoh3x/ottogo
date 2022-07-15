@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 import datetime
+from gogoanime import *
 import json
 
 app = FastAPI()
