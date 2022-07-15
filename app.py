@@ -1,3 +1,4 @@
+import uvicorn
 from gogoanime import *
 from fastapi import FastAPI
 import json
@@ -16,10 +17,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get('/api/genre/{genre}/{page}')
-def genre(genre: str, page: int):
-    genre = GogoanimeParser.genre(genre_name=genre, page=page)
-    return genre
+
 
 @app.get('/api/recently/{page}')
 def recently(page: int):
@@ -32,6 +30,11 @@ def popular(page: int):
     popular = GogoanimeParser.popular(page=page)
     return json.loads(popular)
 
+
+@app.get('/api/category/{genre}/{page}')
+def genre(genre: str, page: int):
+    genre = GogoanimeParser.genre(genre_name=genre, page=page)
+    return genre
 
 
 @app.get('/api/details/{animeid}')
