@@ -16,7 +16,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get('/api/{genre}/{page}')
+@app.get('/api/genre/{genre}/{page}')
 def genre(genre: str, page: int):
     genre = GogoanimeParser.genre(genre_name=genre, page=page)
     return json.loads(genre)
