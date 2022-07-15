@@ -1,2 +1,6 @@
 fastapi
 uvicorn
+bs4
+cloudscraper
+requests
+cfscrape
