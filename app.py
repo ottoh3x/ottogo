@@ -30,6 +30,16 @@ def popular(page: int):
     popular = GogoanimeParser.popular(page=page)
     return json.loads(popular)
 
+@app.get('/api/new-season/{page}')
+def newseason(page: int):
+    newseason = GogoanimeParser.newSeason(page=page)
+    return json.loads(newseason)
+
+@app.get('/api/movies/{page}')
+def movies(page: int):
+    movies = GogoanimeParser.movies(page=page)
+    return json.loads(movies)
+
 
 @app.get('/api/category/{genre}/{page}')
 def genre(genre: str, page: int):
