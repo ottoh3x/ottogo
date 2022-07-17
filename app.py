@@ -20,41 +20,41 @@ app.add_middleware(
 
 
 @app.get('/api/recently/{page}')
-def recently(page: int):
+async def recently(page: int):
     recently = GogoanimeParser.get_recently_uploaded(page=page)
     return json.loads(recently)
 
 
 @app.get('/api/popular/{page}')
-def popular(page: int):
+async def popular(page: int):
     popular = GogoanimeParser.popular(page=page)
     return json.loads(popular)
 
 @app.get('/api/new-season/{page}')
-def newseason(page: int):
+async def newseason(page: int):
     newseason = GogoanimeParser.newSeason(page=page)
     return json.loads(newseason)
 
 @app.get('/api/movies/{page}')
-def movies(page: int):
+async def movies(page: int):
     movies = GogoanimeParser.movies(page=page)
     return json.loads(movies)
 
 
 @app.get('/api/category/{genre}/{page}')
-def genre(genre: str, page: int):
+async def genre(genre: str, page: int):
     genre = GogoanimeParser.genre(genre_name=genre, page=page)
     return genre
 
 
 @app.get('/api/details/{animeid}')
-def details(animeid: str):
+async def details(animeid: str):
     detail = GogoanimeParser.details(animeid=animeid)
     return detail
 
 
 @app.get('/api/{id}/{episode_num}')
-def episode(id: str, episode_num: int):
+async def episode(id: str, episode_num: int):
     episode = GogoanimeParser.episode(animeid=id, episode_num=episode_num)
     return episode
 
