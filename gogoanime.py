@@ -22,7 +22,7 @@ class GogoanimeParser():
     def search(key, page):
         r = parser.get(
             f'https://gogoanime.lu/search.html?keyword={key}&page={page}').text
-        soup = BeautifulSoup(r, 'html.parser')
+        soup = BeautifulSoup(r, 'lxml')
         search = soup.find('div', 'last_episodes').find('ul', 'items')
         search_list = search.find_all('li')
 
@@ -47,7 +47,7 @@ class GogoanimeParser():
     def get_recently_uploaded(page):
         try:
             r = parser.get(f'https://gogoanime.lu/?page={page}').text
-            soup = BeautifulSoup(r, 'html.parser')
+            soup = BeautifulSoup(r, 'lxml')
             recently = soup.find('div', 'last_episodes').find('ul', 'items')
             recently_list = recently.find_all('li')
             anilist = dict()
@@ -78,7 +78,7 @@ class GogoanimeParser():
     def newSeason(page):
         r = parser.get(
             f'https://gogoanime.lu/new-season.html?page={page}').text
-        soup = BeautifulSoup(r, 'html.parser')
+        soup = BeautifulSoup(r, 'lxml')
         popular = soup.find('div', 'last_episodes').find('ul', 'items')
         popular_list = popular.find_all('li')
 
@@ -101,7 +101,7 @@ class GogoanimeParser():
 
     def popular(page):
         r = parser.get(f'https://gogoanime.lu/popular.html?page={page}').text
-        soup = BeautifulSoup(r, 'html.parser')
+        soup = BeautifulSoup(r, 'lxml')
         popular = soup.find('div', 'last_episodes').find('ul', 'items')
         popular_list = popular.find_all('li')
 
@@ -125,7 +125,7 @@ class GogoanimeParser():
     def movies(page):
         r = parser.get(
             f'https://gogoanime.lu/anime-movies.html?page={page}').text
-        soup = BeautifulSoup(r, 'html.parser')
+        soup = BeautifulSoup(r, 'lxml')
         movies = soup.find('div', 'last_episodes').find('ul', 'items')
         movies_list = movies.find_all('li')
 
