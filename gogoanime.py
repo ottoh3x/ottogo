@@ -101,7 +101,7 @@ class GogoanimeParser():
 
     def popular(page):
         r = parser.get(f'https://gogoanime.lu/popular.html?page={page}').text
-        soup = BeautifulSoup(r, 'lxml')
+        soup = BeautifulSoup(r, 'html.parser')
         popular = soup.find('div', 'last_episodes').find('ul', 'items')
         popular_list = popular.find_all('li')
 
