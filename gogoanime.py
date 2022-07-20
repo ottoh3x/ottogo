@@ -22,7 +22,7 @@ class GogoanimeParser():
     def search(key, page):
         r = parser.get(
             f'https://gogoanime.lu/search.html?keyword={key}&page={page}').text
-        soup = BeautifulSoup(r, 'lxml')
+        soup = BeautifulSoup(r, 'html.parser')
         search = soup.find('div', 'last_episodes').find('ul', 'items')
         search_list = search.find_all('li')
 
@@ -47,7 +47,7 @@ class GogoanimeParser():
     def get_recently_uploaded(page):
         try:
             r = parser.get(f'https://gogoanime.lu/?page={page}').text
-            soup = BeautifulSoup(r, 'lxml')
+            soup = BeautifulSoup(r, 'html.parser')
             recently = soup.find('div', 'last_episodes').find('ul', 'items')
             recently_list = recently.find_all('li')
             anilist = dict()
@@ -78,7 +78,7 @@ class GogoanimeParser():
     def newSeason(page):
         r = parser.get(
             f'https://gogoanime.lu/new-season.html?page={page}').text
-        soup = BeautifulSoup(r, 'lxml')
+        soup = BeautifulSoup(r, 'html.parser')
         popular = soup.find('div', 'last_episodes').find('ul', 'items')
         popular_list = popular.find_all('li')
 
@@ -125,7 +125,7 @@ class GogoanimeParser():
     def movies(page):
         r = parser.get(
             f'https://gogoanime.lu/anime-movies.html?page={page}').text
-        soup = BeautifulSoup(r, 'lxml')
+        soup = BeautifulSoup(r, 'html.parser')
         movies = soup.find('div', 'last_episodes').find('ul', 'items')
         movies_list = movies.find_all('li')
 
@@ -183,7 +183,7 @@ class GogoanimeParser():
             url = f"https://gogoanime.lu/genre/{genre_name}?page={page}"
             response = parser.get(url)
             plainText = response.text
-            soup = BeautifulSoup(plainText, "lxml")
+            soup = BeautifulSoup(plainText, "html.parser")
             animes = soup.find("ul", {"class": "items"}).find_all("li")
             gen_ani = []
             for anime in animes:  # For every anime found
@@ -205,7 +205,7 @@ class GogoanimeParser():
         URL_PATTERN = 'https://gogoanime.lu/{}-episode-{}'
         url = URL_PATTERN.format(animeid, episode_num)
         srcCode = parser.get(url).text
-        soup = BeautifulSoup(srcCode, "lxml")
+        soup = BeautifulSoup(srcCode, "html.parser")
         iframe = soup.find('div', 'anime_video_body')
 
         ifr = iframe.find('div', 'play-video').find('iframe')
