@@ -53,9 +53,9 @@ async def details(animeid: str):
     return detail
 
 
-@app.get('/api/{id}/{episode_num}')
-async def episode(id: str, episode_num: int):
-    episode = GogoanimeParser.episode(animeid=id, episode_num=episode_num)
+@app.get('/api/{animeid}/episode/{episode_num}')
+async def episode(animeid: str, episode_num: int):
+    episode = GogoanimeParser.episode(animeid=anime_id, episode_num=episode_num)
     return episode
 
 
