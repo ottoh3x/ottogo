@@ -40,6 +40,11 @@ async def movies(page: int):
     movies = GogoanimeParser.movies(page=page)
     return json.loads(movies)
 
+@app.get('/api/search/{key}/{page}')
+async def search(key: str ,page: int):
+    search = GogoanimeParser.search(key=key,page=page)
+    return json.loads(search)
+
 
 @app.get('/api/category/{genre}/{page}')
 async def genre(genre: str, page: int):
