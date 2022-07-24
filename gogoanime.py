@@ -147,7 +147,8 @@ class GogoanimeParser():
         return mov_animes
 
     def details(animeid):
-        r = parser.get(f'https://gogoanime.lu/category/{animeid}').text
+        url = "https://gogoanime.lu/category/" + animeid
+        r = requests.get(url).text
         soup = BeautifulSoup(r, 'html.parser')
         source_url = soup.find("div", {"class": "anime_info_body_bg"}).img
         image_url = source_url.get('src')
