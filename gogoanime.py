@@ -221,3 +221,15 @@ class GogoanimeParser():
         links['iframe'] = f"https:{iframe}"
         links['gogoserver'] = gogoserver
         return links
+   
+    def schedule(animeid):
+        time = {}
+        try:
+            url=f"https://animeschedule.net/anime/{animeid}".replace("2nd-season",'2').replace('season-2',"2")
+            r = requests.get(url,headers=headers).text
+            soup = BeautifulSoup(r,'html.parser')
+            t = soup.find(id="countdown-wrapper").time['datetime']
+            time['time'] = t
+            return time
+        except:
+            print("there is no schedule available")
