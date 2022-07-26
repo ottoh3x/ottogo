@@ -6,6 +6,9 @@ import cfscrape
 import base64
 
 
+headers = {
+   "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:97.0) Gecko/20100101 Firefox/97.0",
+}
 session = requests.Session()
 
 scraper = cfscrape.create_scraper()
@@ -21,7 +24,7 @@ class GogoanimeParser():
 
     def search(key, page):
         r = parser.get(
-            f'https://gogoanime.lu/search.html?keyword={key}&page={page}').text
+            f'https://gogoanime.lu/search.html?keyword={key}&page={page}',headers=headers).text
         soup = BeautifulSoup(r, 'html.parser')
         search = soup.find('div', 'last_episodes').find('ul', 'items')
         search_list = search.find_all('li')
@@ -46,7 +49,7 @@ class GogoanimeParser():
 
     def get_recently_uploaded(page):
         try:
-            r = parser.get(f'https://gogoanime.lu/?page={page}').text
+            r = parser.get(f'https://gogoanime.lu/?page={page}',headers=headers).text
             soup = BeautifulSoup(r, 'html.parser')
             recently = soup.find('div', 'last_episodes').find('ul', 'items')
             recently_list = recently.find_all('li')
@@ -100,7 +103,7 @@ class GogoanimeParser():
         return new_animes
 
     def popular(page):
-        r = parser.get(f'https://gogoanime.lu/popular.html?page={page}').text
+        r = parser.get(f'https://gogoanime.lu/popular.html?page={page}',headers=headers).text
         soup = BeautifulSoup(r, 'html.parser')
         popular = soup.find('div', 'last_episodes').find('ul', 'items')
         popular_list = popular.find_all('li')
@@ -148,7 +151,7 @@ class GogoanimeParser():
 
     def details(animeid):
         url = "https://gogoanime.lu/category/" + animeid
-        r = requests.get(url).text
+        r = requests.get(url,headers=headers).text
         soup = BeautifulSoup(r, 'html.parser')
         source_url = soup.find("div", {"class": "anime_info_body_bg"}).img
         image_url = source_url.get('src')
@@ -205,12 +208,16 @@ class GogoanimeParser():
         links = {}
         URL_PATTERN = 'https://gogoanime.lu/{}-episode-{}'
         url = URL_PATTERN.format(animeid, episode_num)
-        srcCode = parser.get(url).text
+        srcCode = requests.get(url,headers=headers).text
         soup = BeautifulSoup(srcCode, "html.parser")
         iframe = soup.find('div', 'anime_video_body')
 
         ifr = iframe.find('div', 'play-video').find('iframe')
         iframe = ifr['src']
+        goload = soup.find('li','vidcdn').a['data-video']
+        gogoserver = f"https:{goload}"
+       
 
         links['iframe'] = f"https:{iframe}"
+        links['gogoserver'] = gogoserver
         return links
