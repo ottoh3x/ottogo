@@ -216,7 +216,7 @@ class GogoanimeParser():
         iframe = ifr['src']
         goload = soup.find('li','vidcdn').a['data-video']
         gogoserver = f"https:{goload}"
-        epid = iframe.split('/')[3].split("=")[1].split("&")[0]
+        epid = iframe.split('/')[3].split('?id=')[1].split('&')[0]
         
        
 
