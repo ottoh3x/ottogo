@@ -216,10 +216,13 @@ class GogoanimeParser():
         iframe = ifr['src']
         goload = soup.find('li','vidcdn').a['data-video']
         gogoserver = f"https:{goload}"
+        epid = iframe.split('/')[3].split("=")[1].split("&")[0]
+        
        
 
         links['iframe'] = f"https:{iframe}"
         links['gogoserver'] = gogoserver
+        links['epid'] = epid
         return links
    
     def schedule(animeid):
