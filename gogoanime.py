@@ -153,21 +153,24 @@ class GogoanimeParser():
        url = f"https://ajax.gogo-load.com/ajax/page-recent-release.html?page={page}&type=1"
        r = requests.get(url).text
        soup = BeautifulSoup(r,"html.parser")
-       links = []
        anime = soup.find('ul','items').find_all('li')
+       gen_ani_res = [{}]
+       gen_ani = []
        for x in anime:
          url = x.find('a')['href']
          title = x.find('p','name').text
          episode = x.find('p','episode').text
          img = x.img['src']
-         links.append({
+         gen_ani.append({
            "title":title,
          'episode':episode,
          'img':img,
          'url': url
        })
+       gen_ani_res.append(gen_ani)
+       jsonlist = json.dumps(gen_ani)
 
-       return links
+       return jsonlist
 
     def details(animeid):
         url = "https://gogoanime.lu/category/" + animeid
