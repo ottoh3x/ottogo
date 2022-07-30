@@ -158,14 +158,19 @@ class GogoanimeParser():
        gen_ani = []
        for x in anime:
          url = x.find('a')['href']
+         url = url.replace('/', '')
          title = x.find('p','name').text
          episode = x.find('p','episode').text
-         img = x.img['src']
+         image_url = x.img['src']
+         get_id = image_url.replace(
+                    '.png', '').replace('.jpg', '').split('/')
+         id = get_id[-1]
          gen_ani.append({
            "title":title,
          'episode':episode,
-         'img':img,
-         'url': url
+         'image_url':img,
+         'url': url,
+            'id':id
        })
        gen_ani_res.append(gen_ani)
        jsonlist = json.dumps(gen_ani)
