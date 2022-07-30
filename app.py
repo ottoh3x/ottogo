@@ -24,6 +24,11 @@ async def recently(page: int):
     recently = GogoanimeParser.get_recently_uploaded(page=page)
     return json.loads(recently)
 
+@app.get('/api/latest/{page}')
+async def latest(page: int):
+    latest = GogoanimeParser.latest(page=page)
+    return json.loads(latest)
+
 
 @app.get('/api/popular/{page}')
 async def popular(page: int):
