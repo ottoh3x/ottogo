@@ -148,6 +148,26 @@ class GogoanimeParser():
         movie_animes_res.append(movies_animes)
         mov_animes = json.dumps(movies_animes)
         return mov_animes
+   
+    def latest(page):
+       url = f"https://ajax.gogo-load.com/ajax/page-recent-release.html?page={page}&type=1"
+       r = requests.get(url).text
+       soup = BeautifulSoup(r,"html.parser")
+       links = []
+       anime = soup.find('ul','items').find_all('li')
+       for x in anime:
+         url = x.find('a')['href']
+         title = x.find('p','name').text
+         episode = x.find('p','episode').text
+         img = x.img['src']
+         links.append({
+           "title":title,
+         'episode':episode,
+         'img':img,
+         'url': url
+       })
+
+       return links
 
     def details(animeid):
         url = "https://gogoanime.lu/category/" + animeid
@@ -236,3 +256,4 @@ class GogoanimeParser():
             return time
         except:
             print("there is no schedule available")
+
