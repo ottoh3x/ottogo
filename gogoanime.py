@@ -9,7 +9,7 @@ import base64
 headers = {
    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:97.0) Gecko/20100101 Firefox/97.0",
 }
-session = requests.Session()
+s = requests.Session()
 
 scraper = cfscrape.create_scraper()
 
@@ -23,7 +23,7 @@ class GogoanimeParser():
         self.episode_num = episode_num
 
     def search(key, page):
-        r = parser.get(
+        r = s.get(
             f'https://gogoanime.lu/search.html?keyword={key}&page={page}',headers=headers).text
         soup = BeautifulSoup(r, 'html.parser')
         search = soup.find('div', 'last_episodes').find('ul', 'items')
@@ -49,7 +49,7 @@ class GogoanimeParser():
 
     def get_recently_uploaded(page):
         try:
-            r = parser.get(f'https://gogoanime.lu/?page={page}',headers=headers).text
+            r = s.get(f'https://gogoanime.lu/?page={page}',headers=headers).text
             soup = BeautifulSoup(r, 'html.parser')
             recently = soup.find('div', 'last_episodes').find('ul', 'items')
             recently_list = recently.find_all('li')
@@ -79,7 +79,7 @@ class GogoanimeParser():
         return jsonlist
 
     def newSeason(page):
-        r = parser.get(
+        r = s.get(
             f'https://gogoanime.lu/new-season.html?page={page}').text
         soup = BeautifulSoup(r, 'html.parser')
         popular = soup.find('div', 'last_episodes').find('ul', 'items')
@@ -103,7 +103,7 @@ class GogoanimeParser():
         return new_animes
 
     def popular(page):
-        r = parser.get(f'https://gogoanime.lu/popular.html?page={page}',headers=headers).text
+        r = s.get(f'https://gogoanime.lu/popular.html?page={page}',headers=headers).text
         soup = BeautifulSoup(r, 'html.parser')
         popular = soup.find('div', 'last_episodes').find('ul', 'items')
         popular_list = popular.find_all('li')
@@ -126,7 +126,7 @@ class GogoanimeParser():
         return pop_animes
 
     def movies(page):
-        r = parser.get(
+        r = s.get(
             f'https://gogoanime.lu/anime-movies.html?page={page}').text
         soup = BeautifulSoup(r, 'html.parser')
         movies = soup.find('div', 'last_episodes').find('ul', 'items')
@@ -151,7 +151,7 @@ class GogoanimeParser():
    
     def latest(page):
        url = f"https://ajax.gogo-load.com/ajax/page-recent-release.html?page={page}&type=1"
-       r = requests.get(url,headers=headers).text
+       r = s.get(url).text
        soup = BeautifulSoup(r,"html.parser")
        anime = soup.find('ul','items').find_all('li')
        gen_ani_res = [{}]
@@ -179,8 +179,8 @@ class GogoanimeParser():
 
     def details(animeid):
         url = "https://gogoanime.lu/category/" + animeid
-        r = requests.get(url,headers=headers).text
-        soup = BeautifulSoup(r, 'html.parser')
+        r = s.get(url)
+        soup = BeautifulSoup(r.text, 'html.parser')
         source_url = soup.find("div", {"class": "anime_info_body_bg"}).img
         image_url = source_url.get('src')
         title = soup.find("div", {"class": "anime_info_body_bg"}).h1.string
@@ -213,7 +213,7 @@ class GogoanimeParser():
     def genre(genre_name, page):
         try:
             url = f"https://gogoanime.lu/genre/{genre_name}?page={page}"
-            response = parser.get(url)
+            response = s.get(url)
             plainText = response.text
             soup = BeautifulSoup(plainText, "html.parser")
             animes = soup.find("ul", {"class": "items"}).find_all("li")
@@ -236,8 +236,8 @@ class GogoanimeParser():
         links = {}
         URL_PATTERN = 'https://gogoanime.lu/{}-episode-{}'
         url = URL_PATTERN.format(animeid, episode_num)
-        srcCode = requests.get(url,headers=headers).text
-        soup = BeautifulSoup(srcCode, "html.parser")
+        srcCode = s.get(url)
+        soup = BeautifulSoup(srcCode.text, "html.parser")
         iframe = soup.find('div', 'anime_video_body')
 
         ifr = iframe.find('div', 'play-video').find('iframe')
@@ -257,8 +257,8 @@ class GogoanimeParser():
         time = {}
         try:
             url=f"https://animeschedule.net/anime/{animeid}".replace("2nd-season",'2').replace('season-2',"2")
-            r = requests.get(url,headers=headers).text
-            soup = BeautifulSoup(r,'html.parser')
+            r = s.get(url)
+            soup = BeautifulSoup(r.text,'html.parser')
             t = soup.find(id="countdown-wrapper").time['datetime']
             time['time'] = t
             return time
